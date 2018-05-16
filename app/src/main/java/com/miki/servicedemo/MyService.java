@@ -2,6 +2,7 @@ package com.miki.servicedemo;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
@@ -17,6 +18,8 @@ import android.util.Log;
  */
 public class MyService extends Service {
 
+    private DownloadBinder mBinder = new DownloadBinder();
+
     private static final String TAG = "MyService";
 
     public MyService() {
@@ -26,7 +29,8 @@ public class MyService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        Log.d(TAG, "onBind: executed");
+        return mBinder;
     }
 
     @Override
@@ -45,5 +49,16 @@ public class MyService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: executed");
+    }
+
+    class DownloadBinder extends Binder {
+        public void startDownload() {
+            Log.d(TAG, "startDownload: executed");
+        }
+
+        public int getProgress() {
+            Log.d(TAG, "getProgress: executed");
+            return 0;
+        }
     }
 }
